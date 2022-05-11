@@ -2,21 +2,23 @@ import React from "react";
 import Produtos from "./Componentes/Home/Produtos/Produtos";
 import { ConjuntoDeComponentes } from "./estiloDoApp";
 import { pacoteDeProdutos } from "./pacoteDeProdutos";
+import Filter from "./Componentes/Home/ContainerFilter/CardFilter";
+import "./index.css";
 
 class App extends React.Component {
   state = {
-    filtroMinimo: 20,
-    filtroMaximo: 100000,
+    filtroMinimo: "",
+    filtroMaximo: "",
     filtroBuscaPorNome: "",
     ordenacao: "Crescente",
   };
-  
+
   filtrarProdutos = () => {
     const pacotesFiltradosMinimo = pacoteDeProdutos.filter((produto) => {
       if (this.state.filtroMinimo) {
         return produto.price >= this.state.filtroMinimo;
-      }else{
-        return produto
+      } else {
+        return produto;
       }
     });
 
@@ -29,7 +31,9 @@ class App extends React.Component {
     });
 
     const pacoteFiltrado = pacotesFiltradosMaximo.filter((produto) => {
-      return produto.name.includes(this.state.filtroBuscaPorNome);
+      return produto.name
+        .toLocaleLowerCase()
+        .includes(this.state.filtroBuscaPorNome.toLocaleLowerCase());
     });
 
     return pacoteFiltrado;
@@ -41,13 +45,23 @@ class App extends React.Component {
     });
   };
 
- 
+  onFilterInputChange = (event, filterName) => {
+    this.setState({
+      [filterName]: event.target.value,
+    });
+  };
+
   render() {
     const produtosFiltrados = this.filtrarProdutos();
 
     return (
       <ConjuntoDeComponentes>
-        
+        <Filter
+          filtroMinimoValue={this.state.filtroMinimo}
+          filtroMaximoValue={this.state.filtroMaximo}
+          filtroBuscaPorNomeValue={this.state.filtroBuscaPorNome}
+          onFilterInputChange={this.onFilterInputChange}
+        ></Filter>
         <Produtos
           quantidade={produtosFiltrados.length}
           onChangeCabecalho={this.ordenarProdutos}
@@ -55,7 +69,6 @@ class App extends React.Component {
           produtos={produtosFiltrados}
           onClick={this.adicionarProdutoNoCarrinho}
         />
-        
       </ConjuntoDeComponentes>
     );
   }
