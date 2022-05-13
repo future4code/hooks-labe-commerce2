@@ -5,6 +5,7 @@ import { pacoteDeProdutos } from "./pacoteDeProdutos";
 import Filter from "./Componentes/Home/ContainerFilter/CardFilter";
 import Carrinho from "./Componentes/Home/Carrinho/Carrinho";
 import "./index.css";
+import Carrinho from "./Componentes/Home/Components/Carrinho/Carrinho";
 
 class App extends React.Component {
   state = {
@@ -91,7 +92,7 @@ class App extends React.Component {
   render() {
     const produtosFiltrados = this.filtrarProdutos();
 
-    return (
+   return (
       <ConjuntoDeComponentes>
         <Carrinho
           carrinho={this.state.carrinho}
