@@ -4,6 +4,7 @@ import { ConjuntoDeComponentes } from "./estiloDoApp";
 import { pacoteDeProdutos } from "./pacoteDeProdutos";
 import Filter from "./Componentes/Home/ContainerFilter/CardFilter";
 import "./index.css";
+import Carrinho from "./Componentes/Home/Components/Carrinho/Carrinho";
 
 class App extends React.Component {
   state = {
@@ -55,21 +56,25 @@ class App extends React.Component {
     const produtosFiltrados = this.filtrarProdutos();
 
     return (
-      <ConjuntoDeComponentes>
-        <Filter
-          filtroMinimoValue={this.state.filtroMinimo}
-          filtroMaximoValue={this.state.filtroMaximo}
-          filtroBuscaPorNomeValue={this.state.filtroBuscaPorNome}
-          onFilterInputChange={this.onFilterInputChange}
-        ></Filter>
-        <Produtos
-          quantidade={produtosFiltrados.length}
-          onChangeCabecalho={this.ordenarProdutos}
-          ordenacao={this.state.ordenacao}
-          produtos={produtosFiltrados}
-          onClick={this.adicionarProdutoNoCarrinho}
-        />
-      </ConjuntoDeComponentes>
+      <><Produtos produtos={Produtos} addProduto={this.addProduto} /><Carrinho
+      carrinho={this.state.Carrinho}
+      removeProduto={this.removeProduto}
+      addProduto={this.addProduto} />        
+        <ConjuntoDeComponentes>
+          <Filter
+            filtroMinimoValue={this.state.filtroMinimo}
+            filtroMaximoValue={this.state.filtroMaximo}
+            filtroBuscaPorNomeValue={this.state.filtroBuscaPorNome}
+            onFilterInputChange={this.onFilterInputChange}
+          ></Filter>
+          <Produtos
+            quantidade={produtosFiltrados.length}
+            onChangeCabecalho={this.ordenarProdutos}
+            ordenacao={this.state.ordenacao}
+            produtos={produtosFiltrados}
+            onClick={this.adicionarProdutoNoCarrinho} />
+        </ConjuntoDeComponentes></>
+      
     );
   }
 }
