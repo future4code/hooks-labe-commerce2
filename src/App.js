@@ -54,15 +54,49 @@ class App extends React.Component {
     });
   };
 
+  adicionarProdutoNoCarrinho = (newProduct) => {
+    const existentProduct = this.state.carrinho.find((product) => {
+      return product.id === newProduct.id;
+    });
+
+    if (existentProduct) {
+      existentProduct.quantidade = existentProduct.quantidade + 1;
+    } else {
+      newProduct.quantidade = 1;
+
+      this.state.carrinho.push(newProduct);
+    }
+
+    this.forceUpdate();
+  };
+
+  removerItemDoCarrinho = (clickedProduct) => {
+    const productInArray = this.state.carrinho.find((product) => {
+      return product.id === clickedProduct.id;
+    });
+
+    if (productInArray.quantidade > 1) {
+      productInArray.quantidade = productInArray.quantidade - 1;
+    } else {
+      const carrinhoAtualizado = this.state.carrinho.filter((itemCarrinho) => {
+        return productInArray.id !== itemCarrinho.id;
+      });
+
+      this.setState({ carrinho: carrinhoAtualizado });
+    }
+
+    this.forceUpdate();
+  };
+
   render() {
     const produtosFiltrados = this.filtrarProdutos();
 
     return (
       <ConjuntoDeComponentes>
         <Carrinho
-        carrinho={this.state.carrinho}
-        valorTotal={this.state.valorTotal}
-        removerItemDoCarrinho={this.removerItemDoCarrinho}
+          carrinho={this.state.carrinho}
+          valorTotal={this.state.valorTotal}
+          removerItemDoCarrinho={this.removerItemDoCarrinho}
         />
         <Filter
           filtroMinimoValue={this.state.filtroMinimo}
