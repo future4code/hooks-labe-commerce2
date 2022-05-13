@@ -3,6 +3,7 @@ import Produtos from "./Componentes/Home/Produtos/Produtos";
 import { ConjuntoDeComponentes } from "./estiloDoApp";
 import { pacoteDeProdutos } from "./pacoteDeProdutos";
 import Filter from "./Componentes/Home/ContainerFilter/CardFilter";
+import Carrinho from "./Componentes/Home/Carrinho/Carrinho";
 import "./index.css";
 
 class App extends React.Component {
@@ -11,6 +12,8 @@ class App extends React.Component {
     filtroMaximo: "",
     filtroBuscaPorNome: "",
     ordenacao: "Crescente",
+    carrinho: [],
+    valorTotal: 0,
   };
 
   filtrarProdutos = () => {
@@ -56,6 +59,11 @@ class App extends React.Component {
 
     return (
       <ConjuntoDeComponentes>
+        <Carrinho
+        carrinho={this.state.carrinho}
+        valorTotal={this.state.valorTotal}
+        removerItemDoCarrinho={this.removerItemDoCarrinho}
+        />
         <Filter
           filtroMinimoValue={this.state.filtroMinimo}
           filtroMaximoValue={this.state.filtroMaximo}
